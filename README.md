@@ -1,7 +1,4 @@
-## Spring boot CRUD
+## Spring boot URL redirect
 
-This module contains articles about Spring Boot CRUD Operations
+This module is for url redirecting 
 
-### Relevant Articles: 
-- [Spring Boot CRUD Application with Thymeleaf](https://www.baeldung.com/spring-boot-crud-thymeleaf)
-- [Using a Spring Boot Application as a Dependency](https://www.baeldung.com/spring-boot-dependency)
