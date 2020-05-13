@@ -1,14 +1,22 @@
 package com.udelblue.controllers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +26,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.udelblue.entities.Redirect;
 
 import com.udelblue.repositories.RedirectRepository;
+import com.udelblue.services.QRService;
 import com.udelblue.services.RedirectService;
 
 @Controller
@@ -33,6 +45,12 @@ public class RedirectController {
 
 	@Autowired
 	private RedirectRepository redirectRepository;
+	
+	@Autowired
+	private QRService qrService;
+	
+	@Value("${host:})")
+	private String host;
 
 	@GetMapping("/redirect/{id}")
 	public ModelAndView redirect(HttpServletRequest req, @PathVariable("id") String id) {
@@ -61,6 +79,10 @@ public class RedirectController {
 		}
 		
 	}
+	
+	
+
+	
 
 	@GetMapping("/editredirect/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
@@ -101,7 +123,10 @@ public class RedirectController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        String host = "";
+		if(StringUtils.isAnyEmpty(host))
+		{
+        host = ip.getHostName();
+		}
    
         host = ip.getHostName();
 		model.addAttribute("host", host);

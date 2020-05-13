@@ -8,9 +8,11 @@ import java.net.UnknownHostException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,6 +48,9 @@ public class QRController {
 
 	@Autowired
 	private QRService qrService;
+	
+	@Value("${host:})")
+	private String host;
 
 	@GetMapping("/qr/{guid}")
 	public ResponseEntity<byte[]> QRredirect(HttpServletRequest req, @PathVariable("guid") String guid)
@@ -58,9 +63,11 @@ public class QRController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        String host = "";
-	   
+	       
+			if(StringUtils.isAnyEmpty(host))
+			{
 	        host = ip.getHostName();
+			}
 			
 		System.out.println(guid);
 	    Redirect redirect = redirectService.findRedirect(guid.trim());
