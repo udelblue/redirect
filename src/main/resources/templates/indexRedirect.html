@@ -27,6 +27,7 @@
 							<tr>
 								<th>URL</th>
 								<th>To URL</th>
+								<th>QR</th>
 								<th>Forward Parameters</th>
 								<th>Log Redirects</th>
 								<th>Edit</th>
@@ -38,6 +39,7 @@
 							<tr th:each="redirect : ${redirects}">
 								<td th:text="${host} +'/redirect/' + ${redirect.guid}"></td>
 								<td th:text="${redirect.url}"></td>
+								<td th:text="${host} +'/qrcode/' + ${redirect.guid}"></td>
 								<td> <input disabled="disabled" type="checkbox"  th:checked="${redirect.appendQueryString}"  > </input> </td>
 								<td> <input disabled="disabled" type="checkbox"  th:checked="${redirect.recordQueryString}"  > </input> </td>
 			
